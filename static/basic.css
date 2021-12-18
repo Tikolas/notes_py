@@ -1,0 +1,10 @@
+body{
+    text-align: center;
+}
+
+.table{
+    height: 50px;
+}
+.table > .tab{
+    padding-top: 15px;
+}

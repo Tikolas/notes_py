@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOTES</title>
+    <link rel="shortcut" href="">
+    <script src={{ url_for('static',filename='io.js') }}></script>
+</head>
+<body>
+<style>
+body{text-align: center;}
+textarea::placeholder{text-align: center;}
+
+.cc{
+    position: fixed;
+    left: 0;
+    bottom: 100px;
+}
+.w{
+    color: #fff;
+}
+.saves{
+    padding: 32px 3px;
+    color: #fff;
+    width: 50px;
+}
+.close{
+    position: fixed;
+    left: 0;
+    bottom: 200px;
+}
+
+.controll-content{
+    background: black;
+    color: white;
+    padding: 20px;
+    font-size: 20px;
+    border-radius: 0 10px 10px 0;
+}
+
+.favorite-all{
+    width: 99999px;
+    height: 99999px;
+    max-height: 100%;
+    background: black;
+    max-width: 50%;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+.tab{
+    color: white;
+    /*background: rgb(71, 71, 71);*/
+    background: #3c4257;
+    width: 100%;
+    font-size: 20px;
+    font-family: sans-serif;
+    padding: 10px 0;
+}
+.cont{
+    width: 200px;
+    height: 300px;
+    /*background: rgb(77, 77, 77);*/
+    background: #3c4257;
+    margin-right: 10px;
+    border-radius: 15px;
+}
+.note{
+    text-align: left;
+    padding-left: 10px;
+    max-width: 98%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 184px;
+    padding-right: 2px;
+    opacity: 0.95;
+}
+.y{
+    color: yellow;
+}
+.dop{
+    color: #67c2b3;
+}
+.o{
+    color: #e9e9c0;
+}
+.b{
+    color: black;
+}
+.tabTitle{
+    font-size: 40px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.tabs{
+    font-size: 30px!important;
+    font-family: sans-serif;
+}
+.title{
+    padding-top: 5px;
+    font-size: 20px;
+    font-family: sans-serif;
+    max-height: 28px;
+    text-overflow: ellipsis;
+    overflow: auto;
+}
+
+.flexis{
+    display: inline-flex;
+    align-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+
+.exp-down{
+    margin-block-start: auto;
+}
+.exp-down1{
+    padding-bottom: 11px;
+}
+.cen{text-align: center;}
+textarea{
+    max-width: 100%;
+    font-size: large;
+}
+</style>
+
+<div id="content">
+
+<textarea placeholder="Title"></textarea><br>
+<textarea placeholder="Note" rows="20" cols="30"></textarea>
+<br>
+<textarea placeholder="Title"></textarea><br>
+
+<!--
+<div class="b tabTitle">title mega super puper dlinie text</div>
+<div class="b tabs">title mega super puper dlinie text</div>
+<div class="b tabs">title mega super puper dlinie text</div>
+-->
+
+<!--
+<div class="cont flexis">
+<div class="title w ">title mega super puper dlinie text</div>
+<div class="note y">
+note jogeeerjeiojg9 4j9j8j4893gh9489g834h9g43g43g34
+note jogeeerjeiojg9 4j9j8j4893gh9489g834h9g43g43g34
+note jogeeerjeiojg9 4j9j8j4893gh9489g834h9g43g43g34
+note jogeeerjeiojg9 4j9j8j4893gh9489g834h9g43g43g34
+note jogeeerjeiojg9 4j9j8j4893gh9489g834h9g43g43g34
+</div>
+<div class="dop">Create: 14.12.2021 13:25</div>
+<div class="dop">Update: 14.12.2021 13:25</div>
+<div class="dop">Size: 200</div>
+<div class="dop">Updated: 0</div>
+</div>
+-->
+
+</div>
+
+
+
+<div id="mobile-buttons">
+<div class="controll-content cc">>></div>
+</div>
+
+<div id="table-buts" style="display: none;">
+<div class="favorite-all">
+
+
+<div class="saves cc">Close</div>
+<div class="close saves">Save</div>
+</div>
+
+</div>
+
+
+
+<script type="text/javascript" charset="utf-8">
+    var socket = io();
+    socket.on('connect', function() {
+        socket.emit('my event', {data: 'I\'m connected!'});
+    });
+    socket.on("my response", (arg) => {
+
+        console.log(arg);
+    });
+
+    //socket.emit('my event', {data: '', user: ''});
+</script>
+<script>
+    function note(){
+    this.elID = function(name){
+        return document.getElementById(name);
+    }
+    this.elQS = function(name){
+        return document.querySelector(name);
+    }
+    this.elQSA = function(name, id){
+        return document.querySelectorAll(name)[id];
+    }
+    this.click = function(elem, fn){
+        elem.addEventListener("click", fn);
+    }
+
+    this.styles = function(elem, nameCSS, attr){
+        elem.style[nameCSS]=attr;
+    }
+    }
+    function loadContent(){
+        this.add = function(elem, html){
+                //elem.innerHTML+=html;
+                elem.insertAdjacentHTML("afterbegin",html);
+            }
+    }
+
+    window.onload = function(){
+        (function(){
+            let basicName = ["Notes","Table"];
+            let vp,vp1,vp2,vp3,vp4,vp5;
+            let a = (new note);
+            let a1 = (new loadContent);
+            
+            let d1 = a.elID,
+            d2 = a.elQS,
+            d3 = a.elQSA,
+            d4 = a.click;//Event manager
+            d5 = a.styles;
+    
+            vp = d2(".saves.cc");
+            vp1 = d2(".controll-content");
+            vp2 = d1("table-buts");
+            function func1(bb){
+                if(bb){
+                    d5(vp2,"display","none");
+                    d5(vp1,"display","block");
+                }else{
+                    d5(vp1,"display","none");
+                    d5(vp2,"display","block");
+                }
+            }
+            d4(vp, function(){func1(true); });
+            
+            d4(vp1, function(){func1(false); });
+            
+            
+            for(i=basicName.length;i>0;i--){
+                a1.add(d2(".favorite-all"),"<div class=\"tab\" id=\"unc-"+i+"\">"+basicName[i-1]+"</div><p></p>");
+                let vp=d1("unc-"+i);
+                
+                //d5().add;
+            }
+            function u(){
+                console.log(100);
+            }
+            u();
+        })();
+    };
+    </script>
+</body>
+</html>

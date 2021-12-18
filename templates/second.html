@@ -1,0 +1,125 @@
+<html>
+<head>
+<title>Edit</title>
+<link rel="stylesheet" href="../static/basic.css">
+</head>
+<body>
+
+<!--
+<div id="schema-0">
+<textarea placeholder="title"></textarea><p></p>
+<textarea placeholder="note" rows="20" cols="30"></textarea><p></p>
+<button>Сохранить</button>
+</div>
+-->
+<div id="schema-1">
+<textarea placeholder="title"></textarea><p></p>
+<div id="content">
+<textarea>Заметка</textarea><button>Удалить</button><p></p>
+</div>
+<textarea placeholder="Новая заметка"></textarea><p></p>
+<button>Добавить</button><p></p>
+
+<textarea placeholder="Создает новую таблицу в этой таблице"></textarea><p></p>
+<button>Новая таблица</button><p></p>
+<button>Сохранить</button> <button>Вернуть</button>
+</div>
+
+
+
+
+<script>
+t0={'0': {'title': 'Заголовок', 'note': 'Одна страница', 'date': 100000, 'date_upd': 1092932, 'cnt_upd': 0}};
+t1={"0":{"title":"Заголовок", "table":["Случайное значение",{"title":"Заголовок Таблицы 1", "table":["Пустое значение"]}], "date":32012, "date_upd":12010, "cnt_upd":0}};
+t1TEST={"title":"Заголовок", "table":["Случайное значение",{"title":"Заголовок Таблицы 1", "table":["Пустое значение"]}], "date":32012, "date_upd":12010, "cnt_upd":0};
+t2={"0":{"title":"Заголовок", "click_count":0, "date":32190, "date_upd":4214}};
+t3={"0":{"title":"Заголовок", "when_was":[321321,321312], "date":3129}};
+
+var data=t1;
+var id_note="0";
+var note="t1";
+var smart='data[0]';
+
+
+function load(){
+    //reload page
+}
+function getID(n){
+    return document.getElementById(n);
+}
+function save(){
+
+}
+
+function reback(){
+    loadfromSocket(data[id_note]);
+    smart='data[0]';
+}
+function autosave(){
+
+}
+
+function editData(elem, to, me){
+    //elem = Элемент DOM
+    //to = Добавить сюда
+    to.push(elem);
+    loadfromSocket(me);
+
+}
+function backWithPar(b){
+    if (b==null){
+        loadfromSocket(data[id_note]);
+    }else{
+        loadfromSocket(b);
+    }
+}
+
+//T1
+function next(n,g){
+    smart=g;
+    loadfromSocket(n);
+}
+function dele(){
+    // где удалить
+    // номер который надо удалить
+
+}
+function loadfromSocket(sock){
+    function ll(n){
+        try{
+            return sock[n];
+        }catch{return "";}
+    }
+    if(note=="t0"){
+        a = getID("schema-0");
+        
+        
+        a.innerHTML='<textarea id="need-0" placeholder="title">'+ll("title")+'</textarea><p></p><textarea placeholder="note" id="need-1" rows="20" cols="30">'+ll("note")+'</textarea><p></p>';
+    }else if(note=="t1"){
+        a = getID("schema-1");
+        //smart="data["+id+"]";
+        a.innerHTML='<textarea placeholder="title" onkeyup="'+smart+"['title']=value;"+'" id="need-0">'+ll("title")+'</textarea><p></p><div id="content"></div><textarea id="need-1"placeholder="Новая заметка"></textarea><p></p><button onclick="editData(getID(\'need-1\').value, '+smart+'[\'table\'], '+smart+');">Добавить</button><p></p><textarea id="need-2"placeholder="Создает новую таблицу в этой таблице"></textarea><p></p><button onclick="editData({\'title\':getID(\'need-2\').value,\'table\':[]}, '+smart+'[\'table\'], '+smart+');">Новая таблица</button><p></p>';
+        b = getID("content");
+        if(ll("table")!=""){
+            for(i=0;i<sock["table"].length;i++){
+                if(typeof sock["table"][i] == 'object'){
+                    b.innerHTML+='<div id="need-'+(i+3)+'" onclick="next('+smart+'.table['+i+'], \''+smart+'.table['+i+']\'); " class="table"><div class="tab">'+sock["table"][i]["title"]+'</div></div>';
+                }else{
+                b.innerHTML+='<textarea onkeyup="'+smart+"['table']["+i+"]=value;"+'" id="need-'+(i+3)+'">'+sock["table"][i]+'</textarea><button>Удалить</button><p></p>';
+                }
+            }
+        }
+    }
+    a.innerHTML+='<button>Сохранить</button> <button onclick="">Refresh</button>';
+
+}
+
+
+
+
+
+</script>
+
+
+</body>
+</html>
